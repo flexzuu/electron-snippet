@@ -1,0 +1,17 @@
+{
+  "name": "electron-xml",
+  "version": "1.0.0",
+  "private": true,
+  "description": "electron-xml viewer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package:mac": "electron-packager electron 'XML Viewer' --out=dist --asar --overwrite --icon=icon.icns"
+  },
+  "keywords": [],
+  "author": "Jonas Faber",
+  "license": "ISC",
+  "devDependencies": {
+    "electron-packager": "^8.1.0"
+  }
+}
