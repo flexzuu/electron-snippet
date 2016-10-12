@@ -1,0 +1,15 @@
+{
+  "name": "electron-create-react-app",
+  "version": "1.0.0",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "export NODE_ENV=development && electron ."
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  },
+  "dependencies": {}
+}

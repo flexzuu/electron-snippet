@@ -1,0 +1,10 @@
+.ReactCodeMirror {
+  text-align: left;
+  min-height: calc(100% - 59px);
+  height: calc(100% - 59px);
+
+}
+.CodeMirror {
+  border: 1px solid #eee;
+  height: 100%;
+}
