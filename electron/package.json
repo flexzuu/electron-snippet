@@ -4,7 +4,7 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "export NODE_ENV=production && electron .",
     "dev": "export NODE_ENV=development && electron ."
   },
   "repository": "https://github.com/electron/electron-quick-start",
