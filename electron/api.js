@@ -1,5 +1,6 @@
 const { dialog, BrowserWindow } = require('electron')
 const fs = require('fs')
+const path = require('path')
 
 function createWindow () {
   // Create the browser window.
@@ -34,6 +35,7 @@ function loadXMLFile() {
   dialog.showOpenDialog(global.mainWindow, {
     filters: [
       {name: 'XML', extensions: ['xml']},
+      {name: 'JSON', extensions: ['json']},
       {name: 'All Files', extensions: ['*']}
     ],
     properties: ['openFile', 'showHiddenFiles']
@@ -41,7 +43,7 @@ function loadXMLFile() {
     if (filenames && filenames[0])
       fs.readFile(filenames[0], 'utf8', (err, data) => {
         if (err) throw err;
-        global.mainWindow.webContents.send('openXMLFile-reply', {data: data, path: filenames[0]})
+        global.mainWindow.webContents.send('openXMLFile-reply', {data: data, path: filenames[0], pathInfo: path.parse(filenames[0])})
       })
   })
 }
@@ -59,7 +61,8 @@ function saveXMLFile(data, path) {
   dialog.showMessageBox(options, (index) => {
     if (index === 0) {
       fs.writeFile(path, data, 'utf8', (err) => {
-        if (err) throw err.mainWindow.webContents.send('saveXMLFile-reply', {data: data, path: path})
+        if (err) throw err
+        global.mainWindow.webContents.send('saveXMLFile-reply', {data: data, path: path, pathInfo: path.parse(filenames[0])})
       })
     }
   })
