@@ -1,1 +1,1 @@
-electron-create-react-app
+electron-snippet
