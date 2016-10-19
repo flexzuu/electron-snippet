@@ -1,8 +1,9 @@
 const { dialog, BrowserWindow } = require('electron')
 const fs = require('fs')
 const path = require('path')
-const xml = require('pixl-xml')
-
+const xml = require('xml2js')
+const parser = new xml.Parser({trim: true, async: true});
+const builder = new xml.Builder({cdata: true});
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
@@ -41,21 +42,26 @@ function loadXMLFile() {
     ],
     properties: ['openFile', 'showHiddenFiles']
   }, (filenames) => {
-    if (filenames && filenames[0])
+    if (filenames && filenames[0]){
       fs.readFile(filenames[0], 'utf8', (err, data) => {
         if (err) throw err;
-        global.mainWindow.webContents.send('openFile-reply', {
-          data: xml.parse(data, { preserveDocumentNode: true, preserveAttributes: true }),
-          path: filenames[0],
-          pathInfo: path.parse(filenames[0]),
+        parser.parseString(data, (err, result) => {
+            if (err) throw err;
+            global.mainWindow.webContents.send('openFile-reply', {
+              data: result,
+              path: filenames[0],
+              pathInfo: path.parse(filenames[0]),
+            });
         });
       });
+    }else {
+      global.mainWindow.webContents.send('openFile-reply-abort');
+    }
   });
 }
 
 function saveXMLFile(data, file) {
-  console.log(data);
-  data = xml.stringify( data )
+  data = builder.buildObject(data);
   if (!global.mainWindow) {
     createWindow();
   }

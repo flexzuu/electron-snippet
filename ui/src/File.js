@@ -3,14 +3,20 @@ import { remote } from 'electron';
 class File {
   constructor() {
     extendObservable(this, {
-      path: "",
-      pathInfo: {},
+      path: computed(()=>`${this.pathInfo.dir}/${this.pathInfo.name}${this.pathInfo.ext}`),
+      pathInfo: {
+        dir: "",
+        name: "",
+        ext: "",
+      },
       saved: false,
+      loading: false,
     });
   }
 }
 
 const instance = new File();
+autorun(()=>console.dir(toJS(instance)));
 autorun(() => {
   // console.log("Saved:", instance.saved )
   remote.getCurrentWindow().setDocumentEdited(!instance.saved)

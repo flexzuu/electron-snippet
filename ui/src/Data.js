@@ -1,5 +1,4 @@
-import { extendObservable, autorun, computed, toJS } from 'mobx';
-import { remote } from 'electron';
+import { extendObservable, autorun, toJS } from 'mobx';
 class Data {
   constructor() {
     extendObservable(this, {
@@ -7,6 +6,7 @@ class Data {
     });
   }
 }
-
 const instance = new Data();
+autorun(()=>console.dir(toJS(instance)));
+
 export default instance;
