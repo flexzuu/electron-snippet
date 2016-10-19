@@ -1,8 +1,8 @@
 {
-  "name": "electron-xml",
+  "name": "electron-snippet",
   "version": "1.0.0",
   "private": true,
-  "description": "electron-xml viewer",
+  "description": "An Snippet editor build with electron and react. WIP",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,6 @@
   },
   "keywords": [],
   "author": "Jonas Faber",
-  "license": "ISC",
   "devDependencies": {
     "electron-packager": "^8.1.0"
   }
