@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import XML from './XML';
+import File from './File';
+import Data from './Data';
 import './index.css';
 import './ipcEvents';
 ReactDOM.render(
-  <App xml={XML}/>,
+  <App file={File} data={Data}/>,
   document.getElementById('root')
 );

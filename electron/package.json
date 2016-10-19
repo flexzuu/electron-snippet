@@ -11,5 +11,8 @@
   "devDependencies": {
     "electron": "^1.4.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "pixl-xml": "^1.0.9",
+    "xml2js": "^0.4.17"
+  }
 }

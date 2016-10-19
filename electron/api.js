@@ -1,7 +1,9 @@
 const { dialog, BrowserWindow } = require('electron')
 const fs = require('fs')
 const path = require('path')
-
+const xml = require('xml2js')
+const parser = new xml.Parser({trim: true, async: true});
+const builder = new xml.Builder({cdata: true});
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
@@ -40,15 +42,26 @@ function loadXMLFile() {
     ],
     properties: ['openFile', 'showHiddenFiles']
   }, (filenames) => {
-    if (filenames && filenames[0])
+    if (filenames && filenames[0]){
       fs.readFile(filenames[0], 'utf8', (err, data) => {
         if (err) throw err;
-        global.mainWindow.webContents.send('openXMLFile-reply', {data: data, path: filenames[0], pathInfo: path.parse(filenames[0])})
-      })
-  })
+        parser.parseString(data, (err, result) => {
+            if (err) throw err;
+            global.mainWindow.webContents.send('openFile-reply', {
+              data: result,
+              path: filenames[0],
+              pathInfo: path.parse(filenames[0]),
+            });
+        });
+      });
+    }else {
+      global.mainWindow.webContents.send('openFile-reply-abort');
+    }
+  });
 }
 
-function saveXMLFile(data, path) {
+function saveXMLFile(data, file) {
+  data = builder.buildObject(data);
   if (!global.mainWindow) {
     createWindow();
   }
@@ -60,12 +73,12 @@ function saveXMLFile(data, path) {
   }
   dialog.showMessageBox(options, (index) => {
     if (index === 0) {
-      fs.writeFile(path, data, 'utf8', (err) => {
+      fs.writeFile(file, data, 'utf8', (err) => {
         if (err) throw err
-        global.mainWindow.webContents.send('saveXMLFile-reply', {data: data, path: path, pathInfo: path.parse(filenames[0])})
-      })
+        global.mainWindow.webContents.send('saveFile-reply');
+      });
     }
-  })
+  });
 }
 
 module.exports.saveXMLFile = saveXMLFile;
