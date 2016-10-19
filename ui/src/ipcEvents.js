@@ -1,15 +1,16 @@
 import { ipcRenderer } from 'electron';
-import XML from './XML';
+import File from './File';
+import Data from './Data';
 
-ipcRenderer.on('openXMLFile-reply', (event, arg) => {
-  XML.loadedData=arg.data;
-  XML.path=arg.path;
-  XML.pathInfo = arg.pathInfo;
-  XML.saved=true;
+ipcRenderer.on('openFile-reply', (event, arg) => {
+  Data.data=arg.data;
+  File.path=arg.path;
+  File.pathInfo = arg.pathInfo;
+  File.saved=true;
 })
-ipcRenderer.on('saveXMLFile-reply', (event, arg) => {
-  XML.loadedData=arg.data;
-  XML.path=arg.path;
-  XML.pathInfo = arg.pathInfo;
-  XML.saved=true;
+ipcRenderer.on('saveFile-reply', (event, arg) => {
+  // Data.data=arg.data;
+  // File.path=arg.path;
+  // File.pathInfo = arg.pathInfo;
+  File.saved=true;
 })
