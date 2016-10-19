@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "package:mac": "electron-packager electron 'XML Viewer' --out=dist --asar --overwrite --icon=icon.icns"
+    "package:mac": "electron-packager electron 'Snippet' --out=dist --asar --overwrite --icon=icon.icns"
   },
   "keywords": [],
   "author": "Jonas Faber",
