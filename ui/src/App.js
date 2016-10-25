@@ -12,9 +12,8 @@ const load = (file) => () => {
   file.loading = true;
 }
 const save = (file, data) => () => ipcRenderer.send('saveFile', { data: toJS(data.data), path: file.path })
-const changeFileName = (file, data, nameExtention) => () => {
-  file.pathInfo.name = `${file.pathInfo.name}.${nameExtention}`
-}
+const saveAs = (file, data) => () => ipcRenderer.send('saveAsFile', { data: toJS(data.data), path: file.path })
+
 const Note = observer(({snippet, remove}) => (
   <div style={{marginBottom: '20px'}}>
     <input style={{width: '100%'}} value={snippet.$.name} onChange={({target})=>snippet.$.name=target.value} />
@@ -37,8 +36,8 @@ const App = ({data, file}) => (
     <div className="App">
       <div className="App-header">
           <button onClick={load(file)}>Open...</button>
-          <button onClick={save(file, data)}>Save</button>
-          <button onClick={changeFileName(file, data, 'bak')}>Change File Name</button>
+          <button onClick={save(file, data)} disabled={file.pathInfo.name === ''}>Save</button>
+          <button onClick={saveAs(file, data)}>Save As</button>
       </div>
       {file.loading?<div className="loading">loading...</div>:<List data={data.data} />}
       <Debuger />

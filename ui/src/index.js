@@ -4,7 +4,7 @@ import App from './App';
 import configStore from './store';
 import './index.css';
 
-const store = configStore(false);
+const store = configStore(true);
 
 ReactDOM.render(
   <App file={store.file} data={store.data}/>,
