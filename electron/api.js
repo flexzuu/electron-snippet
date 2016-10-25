@@ -1,4 +1,4 @@
-const { dialog, BrowserWindow } = require('electron')
+const { dialog, BrowserWindow, ipcMain } = require('electron')
 const fs = require('fs')
 const path = require('path')
 const xml = require('xml2js')
@@ -37,7 +37,6 @@ function loadXMLFile() {
   dialog.showOpenDialog(global.mainWindow, {
     filters: [
       {name: 'XML', extensions: ['xml']},
-      {name: 'JSON', extensions: ['json']},
       {name: 'All Files', extensions: ['*']}
     ],
     properties: ['openFile', 'showHiddenFiles']
@@ -60,26 +59,60 @@ function loadXMLFile() {
 }
 
 function saveXMLFile(data, file) {
+  if (file === '/') {
+    saveAsXMLFile(data, file);
+  }else {
+    data = builder.buildObject(data);
+    if (!global.mainWindow) {
+      createWindow();
+    }
+    const options = {
+      type: 'info',
+      title: 'Save',
+      message: "Are you sure you want to save?",
+      buttons: ['Yes', 'No']
+    }
+    dialog.showMessageBox(options, (index) => {
+      if (index === 0) {
+        fs.writeFile(file, data, 'utf8', (err) => {
+          if (err) throw err
+          global.mainWindow.webContents.send('saveFile-reply');
+        });
+      }
+    });
+
+  }
+}
+function saveAsXMLFile(data, file) {
   data = builder.buildObject(data);
   if (!global.mainWindow) {
     createWindow();
   }
   const options = {
-    type: 'info',
-    title: 'Save',
-    message: "Are you sure you want to save?",
-    buttons: ['Yes', 'No']
+    title: 'Save As',
+    defaultPath: file,
+    filters: [
+      {name: 'XML', extensions: ['xml']},
+      {name: 'All Files', extensions: ['*']}
+    ],
   }
-  dialog.showMessageBox(options, (index) => {
-    if (index === 0) {
+  dialog.showSaveDialog(global.mainWindow, options, (file) => {
+    if (file) {
       fs.writeFile(file, data, 'utf8', (err) => {
         if (err) throw err
-        global.mainWindow.webContents.send('saveFile-reply');
+        global.mainWindow.webContents.send('saveFile-reply',{
+          pathInfo: path.parse(file),
+        });
       });
     }
   });
 }
-
+function callWithState(callback) {
+  global.mainWindow.webContents.send('getState');
+  ipcMain.on('getState-reply', (_,{data, path})=>callback(data, path))
+}
 module.exports.saveXMLFile = saveXMLFile;
+module.exports.saveAsXMLFile = saveAsXMLFile;
 module.exports.loadXMLFile = loadXMLFile;
 module.exports.createWindow = createWindow;
+module.exports.callWithState = callWithState;

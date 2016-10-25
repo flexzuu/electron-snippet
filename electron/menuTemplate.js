@@ -1,4 +1,4 @@
-const { loadXMLFile } =  require('./api');
+const { loadXMLFile, saveXMLFile, saveAsXMLFile, callWithState } =  require('./api');
 const template = [
   {
     label: 'File',
@@ -14,7 +14,14 @@ const template = [
         label: 'Save',
         accelerator: 'CmdOrCtrl+S',
         click (item, focusedWindow) {
-          saveXMLFile()
+          callWithState((data, path)=>saveXMLFile(data, path))
+        }
+      },
+      {
+        label: 'Save As',
+        accelerator: process.platform === 'darwin' ? 'Alt+Command+S' : 'Ctrl+Shift+S',
+        click (item, focusedWindow) {
+          callWithState((data, path)=>saveAsXMLFile(data,path))
         }
       },
     ]

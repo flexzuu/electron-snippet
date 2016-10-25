@@ -1,7 +1,9 @@
 const electron = require('electron')
 const menuTemplate = require('./menuTemplate')
-const { loadXMLFile, saveXMLFile, createWindow } = require('./api')
-const { ipcMain, app, Menu } = electron
+const { app, Menu } = electron
+const { createWindow } = require('./api')
+
+require('./ipc');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 // global.mainWindow
@@ -29,8 +31,3 @@ app.on('activate', function () {
     createWindow()
   }
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-ipcMain.on('openFile', () => loadXMLFile())
-ipcMain.on('saveFile', (event, {data, path}) => saveXMLFile(data,path))

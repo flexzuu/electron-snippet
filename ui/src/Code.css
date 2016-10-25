@@ -5,6 +5,9 @@
 
 }
 .CodeMirror {
-  border: 1px solid #eee;
   height: 100%;
+  background-color: transparent;
+}
+.CodeMirror-gutters{
+  background-color: transparent;
 }
