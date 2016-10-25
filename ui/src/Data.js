@@ -1,12 +1,7 @@
-import { extendObservable, autorun, toJS } from 'mobx';
-class Data {
-  constructor() {
-    extendObservable(this, {
-      data: {},
-    });
+import { observable, action } from 'mobx';
+export default class Data {
+  @observable data = {}
+  @action updateData(data){
+    this.data=data
   }
 }
-const instance = new Data();
-autorun(()=>console.dir(toJS(instance)));
-
-export default instance;

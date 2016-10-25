@@ -7,8 +7,6 @@ import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Code from './Code';
 
-// import Code from './Code';
-
 const load = (file) => () => {
   ipcRenderer.send('openFile');
   file.loading = true;

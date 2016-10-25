@@ -49,7 +49,6 @@ function loadXMLFile() {
             if (err) throw err;
             global.mainWindow.webContents.send('openFile-reply', {
               data: result,
-              path: filenames[0],
               pathInfo: path.parse(filenames[0]),
             });
         });

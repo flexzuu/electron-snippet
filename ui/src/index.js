@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import File from './File';
-import Data from './Data';
+import configStore from './store';
 import './index.css';
-import './ipcEvents';
+
+const store = configStore(false);
+
 ReactDOM.render(
-  <App file={File} data={Data}/>,
+  <App file={store.file} data={store.data}/>,
   document.getElementById('root')
 );
