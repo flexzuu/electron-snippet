@@ -25,17 +25,17 @@ html, body, .App, #root {
   height: 59px;
   padding: 20px;
   color: white;
+  border-bottom: 1px solid #ccc;
 }
 
 .App-intro {
   font-size: large;
 }
 .note {
+  height: 100%;
   padding: 5px;
 }
-.note:nth-child(even) {
-    background: #f7f7f7;
-}
+
 input {
   color: #555;
   font-size: large;
@@ -70,30 +70,43 @@ input:focus {
 }
 .wrapper {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  height: calc(100% - 59px);
   overflow: hidden;
 }
 .codeView {
-  width: 65%;
-  height: 100%;
-  float: left;
+  flex: 1 0 auto;
 }
 .codeList {
-  overflow: hidden;
+  min-width: 100px;
+  flex: 0 0 auto;
+  overflow: scroll;
+  height: 100%;
+  border-left: 1px solid #ccc;
 }
 .codeList ul {
+  list-style: none;
   position: relative;
   margin: 0;
   padding: 0;
-  border-left: 1px solid #ccc;
 }
-.codeList ul li{
+.codeList ul li {
   font: 200 15px/1.5 Helvetica, Verdana, sans-serif;
   border-bottom: 1px solid #ccc;
   padding-left: 10px;
+  padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
-  background-color: #F5F5F5
 }
 .codeList ul li:nth-child(even){
-  background-color: #E0E0E0;
+  background-color: #f7f7f7
+}
+.codeList ul li:hover{
+  background-color: lightblue;
+  cursor: pointer;
+}
+.codeList ul li.active {
+  cursor: not-allowed;
+  text-decoration: underline;
 }

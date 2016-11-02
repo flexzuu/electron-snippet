@@ -1,13 +1,13 @@
 .ReactCodeMirror {
   text-align: left;
-  min-height: calc(100% - 59px);
-  height: calc(100% - 59px);
-
+  min-height: calc(100%);
+  height: calc(100%);
+  padding-bottom: 5px;
 }
 .CodeMirror {
   height: 100%;
-  background-color: transparent;
+  background-color: transparent !important;
 }
 .CodeMirror-gutters{
-  background-color: transparent;
+  background-color: transparent !important;
 }
