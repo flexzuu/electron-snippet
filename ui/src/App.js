@@ -44,8 +44,11 @@ const List = observer(({data}) => {
 
   if(data.data && data.data.codes && data.data.codes.snippet){
     return (
-      <div>
+      <div className="wrapper">
+      <div className="codeView">
         {data.data.codes.snippet[data.active] && <Note snippet={data.data.codes.snippet[data.active]} remove={remove(data.active)} />}
+      </div>
+      <div className="codeList">
         <ul>{data.data.codes.snippet.map((snippet, index)=>
           <li
             key={index}
@@ -54,6 +57,7 @@ const List = observer(({data}) => {
             {snippet.$.name}
           </li>
         )}</ul>
+      </div>
       </div>
     )
 

@@ -68,3 +68,32 @@ input:focus {
 .note input, .note button {
   margin-left: 30px;
 }
+.wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+.codeView {
+  width: 65%;
+  height: 100%;
+  float: left;
+}
+.codeList {
+  overflow: hidden;
+}
+.codeList ul {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid #ccc;
+}
+.codeList ul li{
+  font: 200 15px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #ccc;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #F5F5F5
+}
+.codeList ul li:nth-child(even){
+  background-color: #E0E0E0;
+}
