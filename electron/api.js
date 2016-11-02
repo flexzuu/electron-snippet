@@ -29,35 +29,42 @@ function createWindow () {
     global.mainWindow = null;
   })
 }
-
-function loadXMLFile() {
+function loadAndParse(pathname) {
+  // console.log("Load",path);
+  fs.readFile(pathname, 'utf8', (err, data) => {
+    if (err) throw err;
+    parser.parseString(data, (err, result) => {
+      if (err) throw err;
+      global.mainWindow.webContents.send('openFile-reply', {
+        data: result,
+        pathInfo: path.parse(pathname),
+      });
+    });
+  });
+}
+function loadXMLFile(path) {
   if (!global.mainWindow) {
     createWindow();
   }
-  dialog.showOpenDialog(global.mainWindow, {
-    filters: [
-      {name: 'XML', extensions: ['xml']},
-      {name: 'All Files', extensions: ['*']}
-    ],
-    properties: ['openFile', 'showHiddenFiles']
-  }, (filenames) => {
-    if (filenames && filenames[0]){
-      fs.readFile(filenames[0], 'utf8', (err, data) => {
-        if (err) throw err;
-        parser.parseString(data, (err, result) => {
-            if (err) throw err;
-            global.mainWindow.webContents.send('openFile-reply', {
-              data: result,
-              pathInfo: path.parse(filenames[0]),
-            });
-        });
-      });
-    }else {
-      global.mainWindow.webContents.send('openFile-reply-abort');
-    }
-  });
+  if (path) {
+    // console.log(path);
+    loadAndParse(path);
+  }else {
+    dialog.showOpenDialog(global.mainWindow, {
+      filters: [
+        {name: 'XML', extensions: ['xml']},
+        {name: 'All Files', extensions: ['*']}
+      ],
+      properties: ['openFile', 'showHiddenFiles']
+    }, (filenames) => {
+      if (filenames && filenames[0]){
+        loadAndParse(filenames[0]);
+      }else {
+        global.mainWindow.webContents.send('openFile-reply-abort');
+      }
+    });
+  }
 }
-
 function saveXMLFile(data, file) {
   if (file === '/') {
     saveAsXMLFile(data, file);

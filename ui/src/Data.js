@@ -11,6 +11,7 @@ export default class Data {
       ]
     }
   }
+  @observable active = 0
   @action updateData(data){
     this.data=data
   }
