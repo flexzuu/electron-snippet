@@ -21,7 +21,10 @@ const add = (data) => () => {
     codeA: [''],
   })
 }
-const Note = observer(({snippet, remove, disabled}) => (
+const changeActive = (data) => () => {
+  data.active = 10;
+}
+const Note = observer(({snippet, remove, disabled = false}) => (
   <div style={{}} className="note">
     <input style={{width: '40%'}} value={snippet.$.name} onChange={({target})=>snippet.$.name=target.value} />
     <button onClick={remove} disabled={disabled}>
@@ -32,10 +35,28 @@ const Note = observer(({snippet, remove, disabled}) => (
 
   </div>
 ));
+//
 const List = observer(({data}) => {
   const remove = (index) => () => data.codes.snippet.splice(index, 1)
-  if(data && data.codes && data.codes.snippet){
-    return <div>{data.codes.snippet.map((snippet, index)=><Note key={index} snippet={snippet} remove={remove(index)} disabled={data.codes.snippet.length < 2} />)}</div>
+  const select = (index) => () => {
+    data.active = index
+  }
+
+  if(data.data && data.data.codes && data.data.codes.snippet){
+    return (
+      <div>
+        {data.data.codes.snippet[data.active] && <Note snippet={data.data.codes.snippet[data.active]} remove={remove(data.active)} />}
+        <ul>{data.data.codes.snippet.map((snippet, index)=>
+          <li
+            key={index}
+            onClick={select(index)}
+          >
+            {snippet.$.name}
+          </li>
+        )}</ul>
+      </div>
+    )
+
   }
   return null;
 });
@@ -48,9 +69,10 @@ const App = ({data, file}) => (
           <button onClick={save(file, data)} disabled={file.pathInfo.name === ''}>Save</button>
           <button onClick={saveAs(file, data)}>Save As</button>
           <button onClick={add(data)}>Add Snippet</button>
+          <button onClick={changeActive(data)}>changeActive</button>
 
       </div>
-      {file.loading?<div className="loading">loading...</div>:<List data={data.data} />}
+      {file.loading?<div className="loading">loading...</div>:<List data={data} />}
       <Debuger />
     </div>
   </DocumentTitle>
