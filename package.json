@@ -1,6 +1,6 @@
 {
   "name": "electron-snippet",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "private": true,
   "description": "An Snippet editor build with electron and react. WIP",
   "main": "index.js",
