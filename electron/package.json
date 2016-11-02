@@ -1,5 +1,5 @@
 {
-  "name": "electron",
+  "name": "Snippet",
   "version": "1.0.0",
   "private": true,
   "main": "main.js",
@@ -11,7 +11,6 @@
     "electron": "^1.4.1"
   },
   "dependencies": {
-    "pixl-xml": "^1.0.9",
     "xml2js": "^0.4.17"
   }
 }
